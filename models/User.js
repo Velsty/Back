@@ -10,12 +10,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+        match: /.+\@.+\..+/ // Valida formato de correo
     },
     password: {
         type: String,
         required: true,
     },
-});
+    // Campos adicionales (opcional)
+    // apellido: { type: String },
+    // rol: { type: String, enum: ['admin', 'user'], default: 'user' },
+}, { timestamps: true }); // Agrega timestamps para seguimiento de creación y actualización
 
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {

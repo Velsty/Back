@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use(bodyParser.json());
 
-// Rutas
+// Rutas sin autenticación
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/clientes', require('./routes/client'));
@@ -54,7 +54,7 @@ app.get('/', (req, res) => {
                 .image-container img {
                     width: 200px;
                     height: 200px;
-                    border-radius: 50%; /* Ajusta esto según el nivel de redondeo deseado */
+                    border-radius: 50%;
                     animation: bounce 2s infinite;
                 }
                 @keyframes bounce {
@@ -77,7 +77,6 @@ app.get('/', (req, res) => {
             </div>
         </body>
         </html>
-
     `);
 });
 

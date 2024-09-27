@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 exports.register = async (req, res) => {
@@ -8,12 +7,14 @@ exports.register = async (req, res) => {
         const user = new User({ name, email, password });
         await user.save();
 
-        const token = jwt.sign({ id: user._id, name: user.name }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
         res.status(201).json({
             success: true,
             message: 'Usuario registrado exitosamente',
-            token: token
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            }
         });
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -29,16 +30,14 @@ exports.login = async (req, res) => {
             return res.status(400).json({ error: 'Credenciales inválidas' });
         }
 
-        const token = jwt.sign(
-            { id: user._id, name: user.name }, 
-            process.env.JWT_SECRET, 
-            { expiresIn: '1h' }
-        );
-
         res.status(200).json({
             success: true,
             message: 'Inicio de sesión exitoso',
-            token: token
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            }
         });
     } catch (error) {
         res.status(400).json({ error: error.message });
